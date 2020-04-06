@@ -3,7 +3,7 @@ const FILES_TO_CACHE = [
   "/index.html",
   "/assets/js/db.js",
   "/assets/js/index.js",
-  "/styles.css",
+  "/assets/css/styles.css",
   "/manifest.webmanifest",
   "/assets/images/icons/icon-72x72.png",
   "/assets/images/icons/icon-96x96.png",
@@ -55,6 +55,7 @@ self.addEventListener("fetch", function (evt) {
       caches
         .open(DATA_CACHE_NAME)
         .then((cache) => {
+          console.log(cache);
           return fetch(evt.request)
             .then((response) => {
               // If the response was good, clone it and store it in the cache.
