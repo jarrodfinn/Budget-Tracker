@@ -74,15 +74,32 @@ self.addEventListener("fetch", function (evt) {
         .catch((err) => console.log(err))
     );
 
-    return;
-  }
+  });    if (event.request.clone().method === 'GET') {
+      event.respondWith(
+        caches.match(event.request)
+          .then(response => {
+            if (response) {
+              console.log('Found ', event.request.url, ' in cache.');
+              return response;
+            }
+            console.log('Network request for ', event.request.url);
+            return fetch(event.request).then(response => {
+              // cache the website file whenever we visit the page
+              return caches.open(cacheName).then(cache => {
+                cache.put(event.request.url, response.clone());
+                return response;
+              })
+            });
+          })
+          .catch((error) => {
 
-  // if the request is not for the API, serve static assets using "offline-first" approach.
-  // see https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook#cache-falling-back-to-network
-evt.respondWith(
-  caches.open(CACHE_NAME).then((cache) => {
-    return cache.match(evt.request).then((response) => {
-      return response || fetch(evt.request);
-    });
-  })
-);});
+          })
+      )
+    }
+    if (event.request.clone().method === 'POST') {
+      fetch(event.request.clone()).catch(function (error) {
+
+      });
+    }
+
+};
