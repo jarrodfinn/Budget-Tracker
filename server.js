@@ -19,9 +19,13 @@ mongoose.connect("mongodb://localhost/budget", {
   useNewUrlParser: true,
   useFindAndModify: false
 });
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
 
 // routes
 app.use(require("./routes/api.js"));
+
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
