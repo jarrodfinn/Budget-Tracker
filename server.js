@@ -16,9 +16,11 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/budget", {
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/budget";
+
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
-  useFindAndModify: false
+  useFindAndModify: false,
 });
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
