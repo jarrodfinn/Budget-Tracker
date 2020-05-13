@@ -22,13 +22,15 @@ const DATA_CACHE_NAME = "data-cache-v1";
 // install
 self.addEventListener("install", function (event) {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log("Your files were pre-cached successfully!");
-      return cache.addAll(FILES_TO_CACHE);
-    })
+    caches
+      .open(CACHE_NAME)
+      .then((cache) => {
+        console.log("Your files were pre-cached successfully!");
+        return cache.addAll(FILES_TO_CACHE);
+      })
       .catch(function (error) {
-      console.error(error)
-    })
+        console.error(error);
+      })
   );
 
   self.skipWaiting();
@@ -53,57 +55,28 @@ self.addEventListener("activate", function (event) {
 
 // fetch
 self.addEventListener("fetch", function (event) {
-  // cache successful requests to the API
-  // if (event.request.url.includes("/api/")) {
-  //   event.respondWith(
-  //     caches
-  //       .open(DATA_CACHE_NAME)
-  //       .then((cache) => {
-  //         console.log(cache);
-  //         return fetch(event.request)
-  //           .then((response) => {
-  //             // If the response was good, clone it and store it in the cache.
-  //             if (response.status === 200) {
-  //               cache.put(event.request.url, response.clone());
-  //             }
-
-  //             return response;
-  //           })
-  //           .catch((err) => {
-  //             // Network request failed, try to get it from the cache.
-  //             return cache.match(event.request);
-  //           });
-  //       })
-  //       .catch((err) => console.log(err))
-  //   );
-
-  // };
-  if (event.request.clone().method === 'GET') {
+  if (event.request.clone().method === "GET") {
     event.respondWith(
-      caches.match(event.request)
-        .then(response => {
+      caches
+        .match(event.request)
+        .then((response) => {
           if (response) {
-            console.log('Found ', event.request.url, ' in cache.');
+            console.log("Found ", event.request.url, " in cache.");
             return response;
           }
-          console.log('Network request for ', event.request.url);
-          return fetch(event.request).then(response => {
+          console.log("Network request for ", event.request.url);
+          return fetch(event.request).then((response) => {
             // cache the website file whenever we visit the page
-            return caches.open(cacheName).then(cache => {
+            return caches.open(cacheName).then((cache) => {
               cache.put(event.request.url, response.clone());
               return response;
-            })
+            });
           });
         })
-        .catch((error) => {
-
-        })
-    )
+        .catch((error) => {})
+    );
   }
-  if (event.request.clone().method === 'POST') {
-    fetch(event.request.clone()).catch(function (error) {
-
-    });
+  if (event.request.clone().method === "POST") {
+    fetch(event.request.clone()).catch(function (error) {});
   }
-
 });

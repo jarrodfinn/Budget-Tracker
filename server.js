@@ -22,13 +22,12 @@ mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useFindAndModify: false,
 });
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/index.html");
 });
 
 // routes
 app.use(require("./routes/api.js"));
-
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
