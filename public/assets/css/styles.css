@@ -13,7 +13,7 @@ body {
   }
   
   td, th {
-    border: 1px solid #445dee;
+    border: 1px solid #30005e;
     text-align: left;
     padding: 8px;
   }
@@ -35,6 +35,7 @@ body {
   .total {
     font-size: 150%;
     text-decoration: underline;
+    
   }
   
   .form {
