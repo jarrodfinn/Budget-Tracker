@@ -23,7 +23,7 @@ SO THAT my account balance is accurate when I am traveling.
 ## Getting Started
 
 The application is deployed on Heroku. 
-https://frightfinder.herokuapp.com/
+https://jpf-budget-tracker.herokuapp.com/
 
 ## Business Context
 
